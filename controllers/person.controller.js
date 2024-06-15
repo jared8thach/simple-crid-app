@@ -54,9 +54,24 @@ const updatePerson = async (req, res) => {
     }
 };
 
+// delete a person
+const deletePerson = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletePerson = await Person.findByIdAndDelete(id);
+        if (!deletePerson) {
+            return res.status(500).json({message: 'Could not delete person.'});
+        }
+        res.status(200).json({message: 'Person deleted'});
+    } catch {
+        res.status(500).json({message: 'Could not delete person.'});
+    }
+};
+
 module.exports = {
     getPeople,
     getPerson,
     addPerson,
     updatePerson,
+    deletePerson,
 };
