@@ -1,6 +1,6 @@
 const Person = require('../models/person.model.js');
 
-// get all persons
+// get all people
 const getPeople = async (req, res) => {
     try {
         const people = await Person.find({});
@@ -11,6 +11,20 @@ const getPeople = async (req, res) => {
     } catch (error) {
         res.status(500).json({message: 'People could not be found.'});
     }
+};
+
+// get a person
+const getPerson = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const person = await Person.findById(id);
+        if (!person) {
+            return res.status(500).json({message: 'Could not find person.'});
+        }
+        res.status(200).json(person);
+    } catch (error) {
+        res.status(500).json({message: 'Could not get person.'});
+    };
 };
 
 // add a person
@@ -42,6 +56,7 @@ const updatePerson = async (req, res) => {
 
 module.exports = {
     getPeople,
+    getPerson,
     addPerson,
     updatePerson,
 };
